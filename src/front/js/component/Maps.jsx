@@ -1,35 +1,37 @@
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Context } from '../store/appContext.js';
 
 export const Maps = () => {
-  useEffect(() => {
-    const apiKey = 'tu_clave_api';
-    const location = '40.392163,-3.6978677';
-    const radius = 500;
-    const types = 'pharmacy';
+  const { store, actions } = useContext(Context);
+  const [city, setCity] = useState('');
 
-    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&types=${types}&key=${apiKey}`;
-
-    // Realizar la solicitud fetch
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Manejar la respuesta JSON
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []); // El segundo argumento del useEffect es un array de dependencias, en este caso, vacío para que se ejecute solo una vez
+  const handlePharmacies = () => {
+    actions.getPharmacies(city);
+  };
 
   return (
-    <div>
-      {/* Contenido de tu componente */}
+    <div className="text-center">
+      <h1>Encuentra tu farmacia más cercana</h1>
+      <label>Ingrese la ciudad más cercana: </label>
+      <input type="text" id="location" value={city} placeholder="Ejemplo: Madrid" onChange={(e) => setCity(e.target.value)} />
+      <button onClick={handlePharmacies}>Buscar Farmacias</button>
+      <ul>
+        {/* Mostrar Listas de Farmacias*/}
+
+        {console.log(store.pharmacies)}
+        {store.pharmacies.map((item, index) => (
+          <li key={index}>
+            <h2>{item.name}</h2>
+            {item.opening_hours && (
+              <p>{item.opening_hours.open_now ? 'Abierto Ahora' : 'Cerrado'}</p>
+            )}
+            <p>{item.vicinity}</p>
+            <p>{item.rating}</p>
+          </li>
+        ))}
+      </ul>
+
     </div>
   );
 };

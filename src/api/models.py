@@ -61,6 +61,7 @@ class Pharmacies(db.Model):
     address = db.Column(db.String(150), nullable=False)
     phone = db.Column(db.String, nullable=False)
     working_hours = db.Column(db.String())
+    open_now = db.Column(db.String()) # New
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     users = db.relationship(Users)
     orders = db.relationship('Orders', secondary=Association_table, back_populates='pharmacy')
@@ -74,7 +75,8 @@ class Pharmacies(db.Model):
                 'pharmacy_name': self.pharmacy_name,
                 'address': self.address,
                 'phone': self.phone,
-                'working_hours': self.working_hours
+                'working_hours': self.working_hours,
+                "open_now": self.open_now
                 }
 
 class Medicines(db.Model):

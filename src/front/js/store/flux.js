@@ -64,9 +64,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error:', "No encuentra Farmacias Cercanas")
 				}
 			},
+
+			getPharmaciesDetails: async (pharmacy_id) => {
+				// 1. Definir la URL que está en el env. Parámetro city. 
+				const url_pharmacy_details = `${process.env.BACKEND_URL}/api/pharmacies`;
+				// 2. Options - Usar POST
+				const options = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					// Para que la API funciona necesitamos el ID por lo tanto es lo que hay que enviar en el body
+					body: JSON.stringify({ pharmacy_id: pharmacy_id }),
+				}
+				// 3. Response
+				const response = await fetch(url_pharmacy_details, options);
+				// 4. Verificar response (console log)
+				if (response.ok) {
+					// 5. If = ok; Tratamiento del OK - definimos el data
+					const data = await response.json();
+					return data;
+					} else {
+						console.log('Error', "No encuentra el ID de la Farmacia")
+						return null;
+					}
+			},
 		}
 	};
 };
+
+
 
 
 export default getState;

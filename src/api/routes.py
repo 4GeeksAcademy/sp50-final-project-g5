@@ -31,7 +31,7 @@ def handle_maps():
     city = request.args.get('city')
     # Lógica si no obtenemos "city"   
     if not city:
-        response_body = {"error": "Parámetro 'location' o 'city' no proporcionado"}
+        response_body = {"error": "Parámetro city' no proporcionado"}
         return jsonify(response_body), 400
     # El paciente inserta la "city" y la API de Geocode de Google la transforma en formato Latitud y Longitud.
     api_url_geocoding = os.environ.get('URL_GOOGLE_GEOCODING')  
@@ -71,7 +71,7 @@ def handle_maps():
         response_body = {"error": "Error en la solicitud a la API de geocoding"}
         return jsonify(response_body), 500
 
-
+# Activar geolocalización
 @api.route('/geolocation', methods=['POST'])
 def handle_geolocation():
     response_body = {}
@@ -83,3 +83,29 @@ def handle_geolocation():
     api_url_geolocation = os.environ.get('URL_GOOGLE_GEOLOCATION')
     api_key = os.environ.get('GOOGLE_API_KEY')
     url_maps_geolocation = f'{api_url_geolocation}?&key={api_key}'
+
+# Post Para Extraer Details de la Pharmacy desde el ID que viene del Front
+@api.route('/pharmacies', methods=['POST'])
+def handle_pharmacies_details():
+    response_body = {}
+    api_url_places_details = os.environ.get('URL_GOOGLE_PLACES_DETAILS')
+    api_key = os.environ.get('GOOGLE_API_KEY')
+    data = request.json
+    # Este dato debe venir del Front
+    pharmacy_id = data['pharmacy_id']
+    # Estos campos son los seleccioandos para extraer, se pueden modificar. Consultar Documentación API. 
+    pharmacy_fields = 'name,formatted_address,current_opening_hours,formatted_phone_number'
+    if not pharmacy_id or not pharmacy_fields:
+        response_body = {"error": "Id or Fields' no proporcionado"}
+        return jsonify(response_body), 400
+    url_pharmacies_details = f'{api_url_places_details}?key={api_key}&place_id={pharmacy_id}&fields={pharmacy_fields}'
+    headers = {
+         'Content-Type': 'application/json'}
+    response = requests.get(url_pharmacies_details, headers=headers)
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return {'error': "Error en la API Google Places para obtener detalles"}
+
+
+    

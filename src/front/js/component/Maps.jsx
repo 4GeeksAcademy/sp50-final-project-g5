@@ -10,11 +10,17 @@ export const Maps = () => {
     actions.getPharmacies(city);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key== 'Enter') {
+      handlePharmacies();
+    }
+  };
+
   return (
     <div className="text-center">
       <h1>Encuentra tu farmacia más cercana</h1>
       <label>Ingrese la ciudad más cercana: </label>
-      <input type="text" id="location" value={city} placeholder="Ejemplo: Madrid" onChange={(e) => setCity(e.target.value)} />
+      <input type="text" id="location" value={city} placeholder="Ejemplo: Madrid" onChange={(e) => setCity(e.target.value)} onKeyPress={handleKeyPress}/>
       <button onClick={handlePharmacies}>Buscar Farmacias</button>
       <ul>
         {/* Mostrar Listas de Farmacias*/}

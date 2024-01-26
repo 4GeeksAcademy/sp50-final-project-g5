@@ -40,7 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				setStore({ demo: demo });  // Reset the global store
 			},
-
+// Get Pharmacies y Details
 			getPharmacies: async (city) => {
 				// 1. Definir la URL que está en el env. Parámetro city. 
 				const url_maps = `${process.env.BACKEND_URL}/api/maps?city=${city}`;

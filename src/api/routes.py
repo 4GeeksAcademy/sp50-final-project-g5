@@ -29,7 +29,7 @@ def handle_maps():
     # location = request.args.get('location') # No lo va a dar el usuario, va a dar la ciudad. 
     # Request.args (request arguments) obtiene el valor de city que viene del Front-End injertado por el Paciente.
     city = request.args.get('city')
-    # Lógica si no obtenemos "city" y??
+    # Lógica si no obtenemos "city"
     if not city:
         response_body = {"error": "Parámetro city' no proporcionado"}
         return jsonify(response_body), 400

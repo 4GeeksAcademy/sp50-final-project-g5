@@ -23,8 +23,7 @@ export const Maps = () => {
       <input type="text" id="location" value={city} placeholder="Ejemplo: Madrid" onChange={(e) => setCity(e.target.value)} onKeyPress={handleKeyPress}/>
       <button onClick={handlePharmacies}>Buscar Farmacias</button>
       <ul>
-        {/* Mostrar Listas de Farmacias*/}
-
+        {/* Mostrar Listas de Farmacias luego pasar otra página*/}
         {console.log(store.pharmacies)}
         {store.pharmacies.map((item, index) => (
           <li key={index}>
@@ -37,7 +36,6 @@ export const Maps = () => {
           </li>
         ))}
       </ul>
-
     </div>
   );
 };

@@ -12,6 +12,7 @@ import ScrollToTop from "./component/ScrollToTop.jsx";
 import { BackendURL } from "./component/BackendURL.jsx";
 import { Navbar } from "./component/Navbar.jsx";
 import { Footer } from "./component/Footer.jsx";
+import { Maps } from "./component/Maps.jsx";
 
 
 // Create your first component
@@ -32,6 +33,7 @@ const Layout = () => {
                         <Route element={<Results />} path="/results" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Maps />} path="/maps" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
